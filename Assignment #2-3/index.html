@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Validation test</title>
+</head>
+
+<body>
+    <form id="form">
+        <table>
+            <tbody>
+                <tr id="sum">
+                    <td><input class="validate-value" size="3" type="text"></td>
+                    <td>+</td>
+                    <td><input class="validate-value" size="3" type="text"></td>
+                    <td>=</td>
+                    <td><input type="text" size="3" id="result-sum"></td>
+                </tr>
+                <tr id="minus">
+                    <td><input class="validate-value" size="3" type="text"></td>
+                    <td>-</td>
+                    <td><input class="validate-value" size="3" type="text"></td>
+                    <td>=</td>
+                    <td><input type="text" size="3" id="result-minus"></td>
+                </tr>
+                <tr id="multiply">
+                    <td><input class="validate-value" size="3" type="text"></td>
+                    <td>x</td>
+                    <td><input class="validate-value" size="3" type="text"></td>
+                    <td>=</td>
+                    <td><input type="text" size="3" id="result-multiply"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button type="submit" id="submit">Calculate</button>
+    </form>
+
+
+    <script>
+        window.onload = () => {
+            // initialize DOM elements -----------------------------------------------------------
+            const inputTextsForValidation = [...document.querySelectorAll('#form input.validate-value')];
+
+            const sumFields = [...document.querySelectorAll('#sum input.validate-value')];
+            const resultSum = document.getElementById('result-sum');
+
+            const minusFields = [...document.querySelectorAll('#minus input.validate-value')];
+            const resultMinus = document.getElementById('result-minus');
+
+            const multiplyFields = [...document.querySelectorAll('#multiply input.validate-value')];
+            const resultMultiply = document.getElementById('result-multiply');
+            // -----------------------------------------------------------------------------------
+
+            // set operations --------------------------------------------------------------
+            const operationSum = (a, b) => parseInt(a.value) + parseInt(b.value);
+            const operationMinus = (a, b) => parseInt(a.value) - parseInt(b.value);
+            const operationMultiply = (a, b) => parseInt(a.value) * parseInt(b.value);
+
+            const calculate = (elements, operation) => elements.reduce(operation);
+            // -----------------------------------------------------------------------------------
+
+
+            function paintValidatedFields(fields, invalidFields) {
+                fields.forEach(element => element.style.background = invalidFields.includes(element) ? "red" :
+                    "green");
+            }
+
+            document.getElementById('form').addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const invalidFields = inputTextsForValidation.filter(element => element.value === "");
+
+                // set all result values
+                if (invalidFields.length === 0) {
+                    resultSum.value = calculate(sumFields, operationSum);
+                    resultMinus.value = calculate(minusFields, operationMinus);
+                    resultMultiply.value = calculate(multiplyFields, operationMultiply);
+
+                } else {
+                    resultSum.value = "";
+                    resultMinus.value = "";
+                    resultMultiply.value = "";
+                }
+
+                paintValidatedFields(inputTextsForValidation, invalidFields);
+                this['submit'].blur();
+            });
+        }
+    </script>
+</body>
+
+</html>
