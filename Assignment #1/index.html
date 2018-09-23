@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Assignment</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+        crossorigin="anonymous">
+</head>
+
+<body>
+
+    <div class="container p-4">
+        <h2>Form</h2>
+        <hr>
+        <form id="form">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="first-name">First Name*</label>
+                <div class="col-sm-10">
+
+                    <input type="text" class="form-control" name="first-name" id="first-name" aria-describedby="helpId"
+                        placeholder="">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="last-name">Last Name*</label>
+                <div class="col-sm-10">
+
+                    <input type="text" class="form-control" name="last-name" id="last-name" aria-describedby="helpId"
+                        placeholder="">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="password">Password*</label>
+                <div class="col-sm-10">
+
+                    <input type="password" class="form-control" name="password" id="password" aria-describedby="helpId"
+                        placeholder="">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="confirm-password">Confirm Password*</label>
+                <div class="col-sm-10">
+
+                    <input type="text" class="form-control" name="confirm-password" id="confirm-password"
+                        aria-describedby="helpId" placeholder="">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="month">Date of birth*</label>
+                <div class="col-sm-2">
+                    <input type="number" class="form-control" name="month" id="month" aria-describedby="helpId"
+                        placeholder="MM">
+                </div>
+                <div class="col-sm-2">
+                    <input type="number" class="form-control" name="day" id="day" aria-describedby="helpId" placeholder="DD">
+
+                </div>
+                <div class="col-sm-2">
+
+                    <input type="number" class="form-control" name="year" id="year" aria-describedby="helpId"
+                        placeholder="YYYY">
+                </div>
+                <label class="col-sm-1 col-form-label" for="gender">Gender</label>
+                <div class="col-sm-3">
+                    <select name="gender" id="gender" class="form-control">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+            </div>
+            <button id="submit" type="submit" class="btn btn-success col-sm-12">Sign Up</button>
+        </form>
+
+        <p id="display-age">
+
+        </p>
+
+    </div>
+
+    <script>
+        const form = document.getElementById('form');
+
+
+        const validateEmptyFields = () => {
+            const inputTexts = form.querySelectorAll('input');
+            const isInputTextsEmpty = [...inputTexts].find(element => element.value === "");
+            if (isInputTextsEmpty) {
+                alert('You need to fill every element');
+                return false;
+            }
+
+            return true;
+
+        }
+
+        const calculateBirth = () => {
+            const birth = new Date(form['year'].value, form['month'].value - 1, form['day'].value);
+            const today = new Date();
+            let age = today.getFullYear() - birth.getFullYear();
+            age = form['month'].value > today.getMonth() ? age - 1 : form['day'].value > today.getDate() ? age - 1 :
+                age;
+            alert(`${form['first-name'].value} ${form['last-name'].value}, you are ${age} years old`);
+
+        }
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (validateEmptyFields()) {
+                calculateBirth();
+            }
+
+            this['submit'].blur();
+        });
+    </script>
+</body>
+
+</html>
